@@ -1,0 +1,119 @@
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(ansi-color-names-vector
+   ["#242424" "#e5786d" "#95e454" "#cae682" "#8ac6f2" "#333366" "#ccaa8f" "#f6f3e8"])
+ '(custom-enabled-themes nil)
+ '(inhibit-startup-screen t)
+ '(tool-bar-mode nil))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
+;; define user-emacs-directory
+;; (only for emacs23)
+(when (< emacs-major-version 23)
+  (defvar user-emacs-directory "~/.emacs.d/"))
+
+;; highlight
+(global-hl-line-mode t)
+
+;; suppress backup files
+(setq make-backup-files nil)
+(setq auto-save-default nil)
+
+;; background color
+(custom-set-faces
+ '(default ((t (:inherit nil :stipple nil :background "white" :foreground "black" :inverse-video nil :box nil :strike-through nil )))))
+                        
+(set-face-background 'default "#f5f5f5")
+
+;; ---- load path setting ----
+
+;; define "add-to-load-path" function
+(defun add-to-load-path (&rest paths)
+  (let (path)
+    (dolist (path paths paths)
+      (let ((default-directory
+	      (expand-file-name (concat user-emacs-directory path))))
+	(add-to-list 'load-path default-directory)
+	(if (fboundp 'normal-top-level-add-subdirs-to-load-path)
+	    (normal-top-level-add-subdirs-to-load-path))))))
+
+;; add to load path to directory
+;; including sub directory
+;; (add-to-load-path "elisp" "conf" "public_repos")
+
+;; ---- auto install setting ----
+(when (require 'auto-install nil t)
+  (setq auto-install-directory "~/.emacs.d/elisp/")
+;  (auto-install-update-emacswiki-package-name t)
+  (auto-install-compatibility-setup))
+
+;; ---- mode definition ----
+
+;; --- C++ ---
+(setq auto-mode-alist
+      (append '(("\\.h$" . c++-mode))
+	      auto-mode-alist))
+
+;; indent setting
+(setq-default c-basic-offset 4
+              tab-width 4
+              indent-tabs-mode nil)
+
+;; --- php ---
+(when (require 'php-mode nil t)
+  (add-to-list 'auto-mode-alist '("\\.ctp\\'" . php-mode))
+  (setq php-search-url "http://jp.php.net/jp/")
+  (setq php-manual-url "http://jp.php.net/manual/ja/"))
+
+;(require 'php-mode)
+;(setq php-mode-force-pear t)
+;(add-to-list 'auto-mode-alist '("\\.php$" . php-mode))
+
+
+;; ---- key binding ----
+
+;; C-x o
+(define-key global-map (kbd "C-t") 'other-window)
+
+;; C-x 0
+(define-key global-map (kbd "C-0") 'delete-window)
+
+;; C-x 1
+(define-key global-map (kbd "C-1") 'delete-other-windows)
+
+;; C-x 2
+(define-key global-map (kbd "C-2") 'split-window-below)
+
+;; C-x 3
+(define-key global-map (kbd "C-3") 'split-window-right)
+
+;; Meta key
+(when (eq system-type 'darwin)
+  (setq ns-command-modifier (quote meta)))
+
+;; ---- font ----
+
+;; English
+(set-face-attribute 'default nil
+		    :family "monaco"
+		    :height 95)
+
+;; Japanese
+;; (set-fontset-font
+;;  nil 'japanese-jisx0208
+;;  (font-spec :family "Hiragino Maru Gothic ProN"))
+
+;; rescaling
+(setq face-font-rescale-alist
+      '((".*Hiragino_Maru_Gothic_ProN.*" . 1.2)))
+
+;; ---- indent ----
+
+(put 'upcase-region 'disabled nil)

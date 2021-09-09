@@ -1,0 +1,48 @@
+(custom-set-variables
+  ;; custom-set-variables was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+ '(inhibit-startup-screen t)
+ '(tool-bar-mode nil)
+ '(spice-output-local "Gnucap")
+ '(spice-simulator "Gnucap") '(spice-waveform-viewer
+"Gwave"))
+(custom-set-faces
+  ;; custom-set-faces was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+ '(default ((t (:inherit nil :stipple nil :background "white" :foreground "black" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 90 :width normal :foundry "unknown" :family "DejaVu Sans Mono")))))
+
+;; highlight
+(global-hl-line-mode t)
+
+;; background color
+(set-face-background 'default "#f5f5f5")
+
+;; C++
+(setq auto-mode-alist
+      (append '(("\\.h$" . c++-mode))
+              auto-mode-alist))
+
+;; indent setting
+(setq-default c-basic-offset 4
+              tab-width 4
+              indent-tabs-mode nil)
+(put 'upcase-region 'disabled nil)
+
+;; key mapping
+(global-set-key (kbd "C-t") 'other-window)
+(global-set-key (kbd "C-0") 'delete-window)
+(global-set-key (kbd "C-1") 'delete-other-windows)
+(global-set-key (kbd "C-2") 'split-window-vertically)
+(global-set-key (kbd "C-3") 'split-window-horizontally)
+
+;; scroll-bar
+(set-scroll-bar-mode 'right)
+
+;; suppress to create backup file (*~)
+(setq make-backup-files nil)
+;; suppress to create backup file (.#*)
+(setq auto-save-default nil)
